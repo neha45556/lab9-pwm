@@ -42,83 +42,63 @@ void PWM_off(){
     TCCR3B = 0x00;
 }
 
+double sound[8] = {}
+unsigned char  i ;
 
-enum states(init, sound1,sound2,sound3,silent) states;
+enum states(init, button1,button2,button3) states;
     
     void sound(){
         switch(state){
             case init:
                 if(PA0){
-                    state = sound1;
+                    state = button1;
                 }
                 if(PA1){
-                     state = sound2;
+                     state = button2;
                 }
                 if(PA2){
-                     state = sound3;
+                     state = button3;
                 }
                 else{
                     state = init;
                 }
                 break;
-            case sound1:
+            case button1:
                 if(!PA0){
                     state = init;
                 }
-                if(PA1 || PA2){
-                    state = silent;
-                }
                 else{
-                    state = sound1;
+                    state = button1;
                 }
                 break;
-            case sound2:
+            case button2:
                 if(!PA1){
                     state = init;
                 }
-                if(PA0 || PA1){
-                    state = silent;
-                }
                 else{
-                    state = sound2;
+                    state = button2;
                 }
                 break;
-           case sound3:
-                if(!PA2){
-                    state = init;
-                }
-                if(PA1 || PA0){
-                    state = silent;
-                }
-                else{
-                    state = sound3;
-                }
-                break;
-            case silent:
-                if(!PA0 || !PA1 || !PA2){
-                    state = init;
-                }
-                else{
-                    state = silent;
-                }
+           case button3:
                 break;
         }
         switch(state){
                 case init:
-                    PB6 = 0x00;
                     break;
-                case sound1:
-                    PB6 = 0x40;
+                case button1:
+                    i++
                     break;
-                case sound2: 
-                    PB6 = 0x40;
+                case button2: 
+                    i--;
                     break;
-                case sound3:
-                    PB6 = 0x40;
+                case button3:
+                    if(PB6 = 0x00){
+                       PB6 = 0x40;
+                    }
+                    else if(PB6 = 0x40){
+                        PB6 = 0x00;
+                    }
                     break;
-                case silent:
-                    PB6 = 0x00;
-                
         }
     }
                     
@@ -133,6 +113,7 @@ int main(void) {
     /* Insert your solution below */
     while (1) {
         sound();
+        PORTB = PB6;
     }
     return 1;
 }
