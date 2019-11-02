@@ -64,16 +64,16 @@ enum states(init, button1,button2,button3) states;
                 }
                 break;
             case button1:
-                if(!PA0){
-                    state = init;
+                if(PA2){
+                    state = button3;
                 }
                 else{
                     state = button1;
                 }
                 break;
             case button2:
-                if(!PA1){
-                    state = init;
+                if(PA2){
+                    state = button3;
                 }
                 else{
                     state = button2;
@@ -84,12 +84,17 @@ enum states(init, button1,button2,button3) states;
         }
         switch(state){
                 case init:
+                    PB6 = 0x00;
                     break;
                 case button1:
-                    i++
+                    if(i < 7){
+                        i++;
+                    }
                     break;
                 case button2: 
-                    i--;
+                    if(i > 0){
+                        i++;
+                    }
                     break;
                 case button3:
                     if(PB6 = 0x00){
